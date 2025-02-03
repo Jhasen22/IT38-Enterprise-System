@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <ul>
+                <li><a href="#" onclick="showSection('dashboard')">Dashboard</a></li>
+                <li><a href="#" onclick="showSection('reports')">Reports</a></li>
+                <li>
+                    <a href="#" onclick="toggleSubMenu()">Accounts</a>
+                    <ul class="submenu">
+                        <li><a href="#" onclick="showSection('users')">Users</a></li>
+                        <li><a href="#" onclick="showSection('tempUsers')">Temp Users</a></li>
+                        <li><a href="#" onclick="showSection('totalUsers')">Total Users</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Main Content -->
+        <div class="content">
+            <div id="dashboard" class="section active">
+                <h1>Dashboard</h1>
+                <p>Welcome to LilJhass Realm.</p>
+            </div>
+            <div id="reports" class="section">
+                <h1>Reports</h1>
+                <p>Dari ma kita ang Detailed Report.</p>
+            </div>
+            <div id="users" class="section">
+                <h1>Users</h1>
+                <p>Dari ma manage ang account sa mga user.</p>
+            </div>
+            <div id="tempUsers" class="section">
+                <h1>Temp Users</h1>
+                <p>Dari gina manage ang mga temporary files.</p>
+            </div>
+            <div id="totalUsers" class="section">
+                <h1>Total Users</h1>
+                <p>This section displays the total number of users.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Function to toggle the submenu visibility
+        function toggleSubMenu() {
+            const submenu = document.querySelector('.submenu');
+            submenu.classList.toggle('visible');
+        }
+
+        // Function to show the selected section
+        function showSection(sectionId) {
+            // Hide all sections
+            const sections = document.querySelectorAll('.section');
+            sections.forEach(section => section.classList.remove('active'));
+
+            // Show the clicked section
+            const activeSection = document.getElementById(sectionId);
+            activeSection.classList.add('active');
+        }
+    </script>
+</body>
+</html>
