@@ -32,7 +32,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     // Verify hashed password
     if (password_verify($password, $hashed_password)) {
       $_SESSION['user'] = $email;
-      header("Location: hardware.php");
+      header("Location: home.php");
       exit();
     } else {
       $error_message = "Invalid password.";
