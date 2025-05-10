@@ -1,144 +1,104 @@
+<?php
+// Example of product data
+$products = [
+    [
+        "name" => "Stanley Adjustable Wrench Set",
+        "description" => "A high-quality set of adjustable wrenches designed for durability and precision. Provide a strong grip and easy adjustment for various bolt sizes.",
+        "price" => "$142",
+        "image" => "https://storage.googleapis.com/a1aa/image/0074ac10-e9e1-4161-e6bd-0ef71d353467.jpg",
+        "rating" => 5
+    ],
+    [
+        "name" => "Castile Claw Hammer",
+        "description" => "A reliable claw hammer built for both professional and DIY use. Its steel head provides powerful striking force, while the rubberized grip ensures comfort and control.",
+        "price" => "$242",
+        "image" => "https://storage.googleapis.com/a1aa/image/6438f918-13a5-44a5-01ea-cbfaf26fffb2.jpg",
+        "rating" => 5
+    ],
+    [
+        "name" => "Black & Decker Electric Drill",
+        "description" => "A powerful electric drill designed for professionals and DIYers. With its compact design and ergonomic grip, it ensures precision drilling in wood, metal, and concrete.",
+        "price" => "$542",
+        "image" => "https://storage.googleapis.com/a1aa/image/455a440e-455c-48bb-89cf-9e4a74d25095.jpg",
+        "rating" => 5
+    ],
+    [
+        "name" => "Hanpex Handsaw",
+        "description" => "A manual cutting tool with a sharp toothed blade. The teeth vary in size depending on the type of cut needed, with larger teeth for rough cuts and finer teeth for precise cuts.",
+        "price" => "$342",
+        "image" => "https://storage.googleapis.com/a1aa/image/cc21c30b-56b2-4e30-6d4f-b2fd9e06cfef.jpg",
+        "rating" => 3
+    ]
+];
+?>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1" name="viewport"/>
     <title>HardwareHub</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet"/>
     <style>
-      body {
-        font-family: 'Inter', sans-serif;
-      }
+        body {
+            font-family: "Inter", sans-serif;
+        }
     </style>
-  </head>
-  <body class="bg-gradient-to-br from-[#d7dde6] to-[#f0f4f9] min-h-screen p-6 sm:p-10">
-    <header class="flex flex-col sm:flex-row items-center justify-between max-w-7xl mx-auto mb-10">
-      <div class="flex items-center space-x-3 mb-6 sm:mb-0">
-        <img alt="HardwareHub logo with blue and red gear icon" class="w-10 h-10" height="40" src="https://storage.googleapis.com/a1aa/image/d743e6d7-4cd5-405a-3570-4a1015bed307.jpg" width="40"/>
-        <span class="font-semibold text-gray-800 text-sm sm:text-base select-none">HardwareHub</span>
-      </div>
-      <nav class="flex space-x-8 text-gray-800 font-semibold text-sm sm:text-base">
+</head>
+<body class="bg-gradient-to-br from-[#dbe3ea] to-[#f0f4f8] min-h-screen p-6">
+<header class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-6 sm:gap-0">
+    <div class="flex items-center gap-2">
+        <img alt="HardwareHub logo" class="w-10 h-10" src="https://storage.googleapis.com/a1aa/image/b8cde2be-fb92-44f5-8f24-cc368489a6ab.jpg"/>
+        <span class="font-extrabold text-sm text-[#1a1a1a] select-none">HardwareHub</span>
+    </div>
+    <nav class="flex gap-8 text-sm font-extrabold text-[#1a1a1a]">
         <a class="hover:underline" href="#">Home</a>
-        <a class="underline decoration-2 decoration-gray-700" href="#">Products</a>
+        <a class="underline decoration-[#2f6ce5] decoration-2" href="#">Products</a>
         <a class="hover:underline" href="#">About us</a>
         <a class="hover:underline" href="#">Contacts</a>
-      </nav>
-      <div class="ml-0 sm:ml-6 mt-6 sm:mt-0">
-        <button aria-label="Shopping cart" class="text-[#f97316] text-xl">
-          <i class="fas fa-shopping-cart"></i>
-        </button>
-      </div>
-    </header>
-    
-    <div class="max-w-7xl mx-auto mb-10">
-      <input class="w-full max-w-xs sm:max-w-sm bg-gray-400 bg-opacity-40 placeholder-gray-300 placeholder-opacity-80 rounded-full py-2 px-4 text-sm text-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-400" placeholder="Search for hand tools materials...." type="search"/>
-    </div>
-    
-    <main class="max-w-7xl mx-auto bg-white rounded-xl p-6 sm:p-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-      <!-- Item 1 -->
-      <article class="bg-[#f7f7f7] rounded-xl p-4 flex flex-col items-center">
-        <img alt="Two yellow Stanley adjustable wrenches crossed on white background" class="rounded-xl mb-4" height="120" src="https://storage.googleapis.com/a1aa/image/a736e00b-1ad1-43a8-6522-5854a02e07ef.jpg" width="160"/>
-        <h3 class="font-semibold text-gray-800 text-sm sm:text-base mb-1 text-center">
-          Stanley Adjustable Wrench Set
-        </h3>
-        <p class="text-[10px] sm:text-xs text-gray-700 font-semibold mb-1 text-center">
-          <span class="font-bold">Description:</span> A high-quality set of adjustable wrenches designed for durability and precision. Provide a strong grip and easy adjustment for various bolt sizes.
-        </p>
-        <div class="flex justify-center space-x-1 text-[#f97316] text-xs mb-2">
-          <i class="fas fa-star"></i>
-          <i class="fas fa-star"></i>
-          <i class="fas fa-star"></i>
-          <i class="fas fa-star"></i>
+    </nav>
+    <button aria-label="Shopping cart" class="text-[#f97316] text-xl">
+        <i class="fas fa-shopping-cart"></i>
+    </button>
+</header>
+
+<div class="max-w-7xl mx-auto mt-6">
+    <form class="max-w-xs">
+        <label class="sr-only" for="search">Search for hand tools materials</label>
+        <div class="relative">
+            <input class="w-full pl-9 pr-3 py-2 rounded-full bg-[#7a7a7a]/30 placeholder:text-white placeholder:text-xs text-white text-xs focus:outline-none" id="search" placeholder="Search for hand tools materials...." type="search"/>
+            <span class="absolute left-3 top-1/2 -translate-y-1/2 text-white text-xs">
+                <i class="fas fa-search"></i>
+            </span>
         </div>
-        <div class="flex items-center justify-center space-x-4 w-full">
-          <span class="font-semibold text-gray-900 text-sm sm:text-base">$142</span>
-          <button aria-label="Add Stanley Adjustable Wrench Set to cart" class="text-[#f97316] text-lg">
-            <i class="fas fa-shopping-cart"></i>
-          </button>
-          <button class="bg-[#f97316] text-white text-xs sm:text-sm rounded-full px-4 py-1 font-semibold hover:bg-[#d96a0f] transition">
-            Buy now!
-          </button>
-        </div>
-      </article>
-      
-      <!-- Item 2 -->
-      <article class="bg-[#f7f7f7] rounded-xl p-4 flex flex-col items-center">
-        <img alt="Blue handle claw hammer with metal head on white background" class="rounded-xl mb-4" height="120" src="https://storage.googleapis.com/a1aa/image/c78b68b4-ae6b-48b3-8280-86e7d339320c.jpg" width="160"/>
-        <h3 class="font-semibold text-gray-800 text-sm sm:text-base mb-1 text-center">
-          Castle Claw Hammer
-        </h3>
-        <p class="text-[10px] sm:text-xs text-gray-700 font-semibold mb-1 text-center">
-          <span class="font-bold">Description:</span> A reliable claw hammer built for both professional and DIY use. Its steel head provides powerful striking force, while the rubberized grip ensures comfort and control.
-        </p>
-        <div class="flex justify-center space-x-1 text-[#f97316] text-xs mb-2">
-          <i class="fas fa-star"></i>
-          <i class="fas fa-star"></i>
-          <i class="fas fa-star"></i>
-          <i class="fas fa-star"></i>
-        </div>
-        <div class="flex items-center justify-center space-x-4 w-full">
-          <span class="font-semibold text-gray-900 text-sm sm:text-base">$242</span>
-          <button aria-label="Add Castle Claw Hammer to cart" class="text-[#f97316] text-lg">
-            <i class="fas fa-shopping-cart"></i>
-          </button>
-          <button class="bg-[#f97316] text-white text-xs sm:text-sm rounded-full px-4 py-1 font-semibold hover:bg-[#d96a0f] transition">
-            Buy now!
-          </button>
-        </div>
-      </article>
-      
-      <!-- Item 3 -->
-      <article class="bg-[#f7f7f7] rounded-xl p-4 flex flex-col items-center">
-        <img alt="Orange Black & Decker electric drill on white background" class="rounded-xl mb-4" height="120" src="https://storage.googleapis.com/a1aa/image/7963bb93-9301-4e72-2e83-0cde0b46914e.jpg" width="160"/>
-        <h3 class="font-semibold text-gray-800 text-sm sm:text-base mb-1 text-center">
-          Black & Decker Electric Drill
-        </h3>
-        <p class="text-[10px] sm:text-xs text-gray-700 font-semibold mb-1 text-center">
-          <span class="font-bold">Description:</span> A powerful electric drill designed for professionals and DIYers. With its compact design and ergonomic grip, it ensures precision drilling in wood, metal, and concrete.
-        </p>
-        <div class="flex justify-center space-x-1 text-[#f97316] text-xs mb-2">
-          <i class="fas fa-star"></i>
-          <i class="fas fa-star"></i>
-          <i class="fas fa-star"></i>
-          <i class="fas fa-star"></i>
-        </div>
-        <div class="flex items-center justify-center space-x-4 w-full">
-          <span class="font-semibold text-gray-900 text-sm sm:text-base">$542</span>
-          <button aria-label="Add Black & Decker Electric Drill to cart" class="text-[#f97316] text-lg">
-            <i class="fas fa-shopping-cart"></i>
-          </button>
-          <button class="bg-[#f97316] text-white text-xs sm:text-sm rounded-full px-4 py-1 font-semibold hover:bg-[#d96a0f] transition">
-            Buy now!
-          </button>
-        </div>
-      </article>
-      
-      <!-- Item 4 -->
-      <article class="bg-[#f7f7f7] rounded-xl p-4 flex flex-col items-center">
-        <img alt="Yellow and black Hanpex handsaw with silver blade on white background" class="rounded-xl mb-4" height="120" src="https://storage.googleapis.com/a1aa/image/f4971949-b5c5-4764-22b0-5ef5cb1da703.jpg" width="160"/>
-        <h3 class="font-semibold text-gray-800 text-sm sm:text-base mb-1 text-center">
-          Hanpex Handsaw
-        </h3>
-        <p class="text-[10px] sm:text-xs text-gray-700 font-semibold mb-1 text-center">
-          <span class="font-bold">Description:</span> A manual cutting tool with a sharp toothed blade. The teeth vary in size depending on the type of cut needed, with larger teeth for rough cuts and finer teeth for precise cuts.
-        </p>
-        <div class="flex justify-center space-x-1 text-[#f97316] text-xs mb-2">
-          <i class="fas fa-star"></i>
-          <i class="fas fa-star"></i>
-          <i class="fas fa-star"></i>
-          <i class="fas fa-star"></i>
-        </div>
-        <div class="flex items-center justify-center space-x-4 w-full">
-          <span class="font-semibold text-gray-900 text-sm sm:text-base">$342</span>
-          <button aria-label="Add Hanpex Handsaw to cart" class="text-[#f97316] text-lg">
-            <i class="fas fa-shopping-cart"></i>
-          </button>
-          <button class="bg-[#f97316] text-white text-xs sm:text-sm rounded-full px-4 py-1 font-semibold hover:bg-[#d96a0f] transition">
-            Buy now!
-          </button>
-        </div>
-      </article>
-    </main>
-  </body>
+    </form>
+</div>
+
+<main class="max-w-7xl mx-auto mt-10 bg-white rounded-xl p-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+    <?php foreach ($products as $product): ?>
+        <article class="bg-[#f3f3f3] rounded-xl p-4 flex flex-col items-center text-center">
+            <img alt="<?= $product['name'] ?>" class="mb-4" height="120" src="<?= $product['image'] ?>" width="150"/>
+            <h3 class="font-extrabold text-xs text-[#1a1a1a] mb-1"><?= $product['name'] ?></h3>
+            <p class="text-[9px] text-[#1a1a1a] font-bold mb-1">Description:</p>
+            <p class="text-[8px] text-[#1a1a1a] mb-2"><?= $product['description'] ?></p>
+            <div class="text-[#f97316] text-xs mb-2">
+                <?php for ($i = 0; $i < $product['rating']; $i++): ?>
+                    <i class="fas fa-star"></i>
+                <?php endfor; ?>
+            </div>
+            <div class="flex items-center gap-2 justify-center text-xs font-extrabold text-[#1a1a1a] mb-2">
+                <span><?= $product['price'] ?></span>
+                <button aria-label="Add <?= $product['name'] ?> to cart" class="text-[#f97316]">
+                    <i class="fas fa-shopping-cart"></i>
+                </button>
+            </div>
+            <button class="bg-[#f97316] text-white text-[10px] font-extrabold rounded-full px-4 py-1 w-full hover:bg-[#e25816] transition">
+                Buy now!
+            </button>
+        </article>
+    <?php endforeach; ?>
+</main>
+
+</body>
 </html>
