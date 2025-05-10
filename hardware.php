@@ -4,7 +4,7 @@ session_start();
 
 // Redirect to login page if the user is not logged in
 if (!isset($_SESSION['user_id'])) {
-    header("Location: login.php"); // Redirect to login page
+    header("Location: login.php");
     exit();
 }
 ?>
@@ -40,7 +40,7 @@ if (!isset($_SESSION['user_id'])) {
                 <a class="underline decoration-2 decoration-[#1a1a1a]" href="#">
                     Home
                 </a>
-                <a href="#">
+                <a href="products.php">
                     Products
                 </a>
                 <a href="#">
@@ -60,12 +60,14 @@ if (!isset($_SESSION['user_id'])) {
                     service you deserve.
                 </h1>
                 <p class="text-[13px] md:text-sm font-semibold text-[#0f2f6f]">
-                    Explore Our high-quality products designed for every builder’s needs.
+                    Explore our high-quality products designed for every builder’s needs.
                 </p>
-                <button class="bg-[#f97316] text-white text-[13px] font-semibold rounded px-4 py-2 w-max mx-auto md:mx-0 shadow-md hover:shadow-lg transition-shadow"
-                    type="button">
-                    Browse Our Best Deals
-                </button>
+                <a href="products.php">
+                    <button class="bg-[#f97316] text-white text-[13px] font-semibold rounded px-4 py-2 w-max mx-auto md:mx-0 shadow-md hover:shadow-lg transition-shadow"
+                        type="button">
+                        Browse Our Best Deals
+                    </button>
+                </a>
             </div>
             <div class="flex-shrink-0">
                 <img alt="Set of tools including hammer, wrenches, pliers with red and black handles"
