@@ -53,8 +53,8 @@ $products = [
         <span class="font-extrabold text-sm text-[#1a1a1a] select-none">HardwareHub</span>
     </div>
     <nav class="flex gap-8 text-sm font-extrabold text-[#1a1a1a]">
-        <a class="hover:underline" href="#">Home</a>
-        <a class="underline decoration-[#2f6ce5] decoration-2" href="#">Products</a>
+        <a class="hover:underline" href="home.php">Home</a>
+        <a class="underline decoration-[#2f6ce5] decoration-2" href="products.php">Products</a>
         <a class="hover:underline" href="#">About us</a>
         <a class="hover:underline" href="#">Contacts</a>
     </nav>

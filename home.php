@@ -1,5 +1,5 @@
 <?php
-  echo '<!DOCTYPE html>
+echo '<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8"/>
@@ -17,8 +17,8 @@
       <span class="font-extrabold text-sm text-[#1f2937] select-none">HardwareHub</span>
     </div>
     <nav class="hidden md:flex space-x-12 font-semibold text-[#1f2937] text-sm">
-      <a class="underline decoration-2 decoration-[#1f2937] font-extrabold" href="#">Home</a>
-      <a class="hover:underline" href="#">Products</a>
+      <a class="underline decoration-2 decoration-[#1f2937] font-extrabold" href="home.php">Home</a>
+      <a class="hover:underline" href="products.php">Products</a>
       <a class="hover:underline" href="#">About us</a>
       <a class="hover:underline" href="#">Contacts</a>
     </nav>
@@ -29,8 +29,8 @@
         <span>Tools you trust,</span>
         <span class="font-normal">service you deserve.</span>
       </h1>
-      <p class="text-xs md:text-sm font-extrabold text-[#0f2a5a] mb-8">Explore Our high-quality products designed for every builder’s needs.</p>
-      <button class="bg-[#f97316] text-white text-xs font-extrabold px-5 py-2 rounded-md hover:bg-[#ea6f0b] transition" type="button">Browse Our Best Deals</button>
+      <p class="text-xs md:text-sm font-extrabold text-[#0f2a5a] mb-8">Explore Our high-quality products designed for every builder\'s needs.</p>
+      <a href="products.php" class="bg-[#f97316] text-white text-xs font-extrabold px-5 py-2 rounded-md hover:bg-[#ea6f0b] transition">Browse Our Best Deals</a>
     </section>
     <section class="mt-12 md:mt-0">
       <img alt="Set of tools with red and black handles and silver metal parts arranged fan-like" class="w-[400px] max-w-full h-auto" height="250" src="https://storage.googleapis.com/a1aa/image/81dbd2e2-c411-4703-93a3-6587b65320cd.jpg" width="400"/>
