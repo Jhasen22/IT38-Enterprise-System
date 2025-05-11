@@ -1,5 +1,4 @@
 <?php
-  // PHP code can be used to handle dynamic content if needed (e.g., fetching information from a database)
   $company_name = "HardwareHub";
   $company_description = "HardwareHub is an e-commerce platform dedicated to offering high-quality hand tools. Our platform makes it easy to browse and purchase essential tools without the hassle of going to physical stores. HardwareHub aims to be the go-to place for all your hand tool needs, delivering a seamless online shopping experience.";
   $mission = "Our mission is to become the go-to destination for all your hardware needs. We aim to revolutionize the industry with an easy-to-navigate platform, competitive prices, and an unmatched product selection.";
@@ -29,9 +28,9 @@
       </span>
     </div>
     <nav class="hidden md:flex space-x-12 font-semibold text-sm text-black">
-      <a class="hover:underline" href="#">Home</a>
-      <a class="hover:underline" href="#">Products</a>
-      <a class="underline decoration-[1.5px] decoration-gray-600 decoration-solid underline-offset-2" href="#">About us</a>
+      <a class="hover:underline" href="home.php">Home</a>
+      <a class="hover:underline" href="products.php">Products</a>
+      <a class="underline decoration-[1.5px] decoration-gray-600 decoration-solid underline-offset-2" href="about.php">About us</a>
       <a class="hover:underline" href="#">Contacts</a>
     </nav>
   </header>

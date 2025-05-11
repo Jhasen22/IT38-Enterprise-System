@@ -19,7 +19,7 @@ echo '<!DOCTYPE html>
     <nav class="hidden md:flex space-x-12 font-semibold text-[#1f2937] text-sm">
       <a class="underline decoration-2 decoration-[#1f2937] font-extrabold" href="home.php">Home</a>
       <a class="hover:underline" href="products.php">Products</a>
-      <a class="hover:underline" href="#">About us</a>
+      <a class="hover:underline" href="about.php">About us</a>
       <a class="hover:underline" href="#">Contacts</a>
     </nav>
   </header>
