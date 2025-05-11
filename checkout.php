@@ -1,35 +1,29 @@
 <?php
-  // Example products
-  $products = [
-    [
-      "name" => "Stanley Adjustable Wrench Set",
-      "image" => "https://storage.googleapis.com/a1aa/image/5e32720e-4791-4c1e-158d-53c41fe0bbc6.jpg",
-      "price" => 142.00,
-      "quantity" => 2,
-    ],
-    [
-      "name" => "Black & Decker Electric Drill",
-      "image" => "https://storage.googleapis.com/a1aa/image/b60002c6-aa14-44b9-e911-ee72ee2ebc68.jpg",
-      "price" => 542.00,
-      "quantity" => 1,
-    ],
-    [
-      "name" => "Castile Claw Hammer",
-      "image" => "https://storage.googleapis.com/a1aa/image/d55264ca-1934-4386-7720-809a7e283628.jpg",
-      "price" => 242.00,
-      "quantity" => 2,
-    ],
-  ];
+session_start();
 
-  $subtotal = 0;
-  foreach ($products as $product) {
-    $subtotal += $product['price'] * $product['quantity'];
-  }
+// Check if cart exists and has items
+if (!isset($_SESSION['cart']) || empty($_SESSION['cart'])) {
+    header('Location: cart.php');
+    exit();
+}
 
-  // Payment methods (This can be dynamic if needed)
-  $payment_methods = ['Cash on delivery', 'G cash', 'Paypal'];
+// Payment methods
+$payment_methods = ['Cash on delivery', 'G cash', 'Paypal'];
+
+// Calculate subtotal
+$subtotal = array_reduce($_SESSION['cart'], function($total, $item) {
+    return $total + ($item['price'] * $item['quantity']);
+}, 0);
+
+// Handle form submission
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Process the order here
+    // You would typically save the order to a database
+    // and then redirect to a confirmation page
+    header('Location: order_confirmation.php');
+    exit();
+}
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -43,9 +37,18 @@
     body {
       font-family: 'Inter', sans-serif;
     }
+    .form-input {
+      @apply w-full px-4 py-3 border-2 border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all;
+    }
+    .form-label {
+      @apply block text-sm font-bold text-gray-700 mb-2;
+    }
+    .form-section {
+      @apply bg-white p-6 rounded-xl shadow-md border border-gray-100;
+    }
   </style>
 </head>
-<body class="bg-[#dbe3eb] min-h-screen">
+<body class="bg-[#f5f7fa] min-h-screen">
   <header class="flex items-center justify-between px-6 py-4 max-w-7xl mx-auto">
     <div class="flex items-center space-x-2">
       <img alt="HardwareHub logo with blue and red gear icon" class="w-8 h-8 rounded-full" height="32" src="https://storage.googleapis.com/a1aa/image/a1a88a64-427e-4002-f4f5-2a5ec7d3a1a0.jpg" width="32"/>
@@ -54,77 +57,122 @@
       </span>
     </div>
     <nav class="hidden md:flex space-x-10 font-extrabold text-[13px] leading-[16px] text-black select-none">
-      <a class="hover:underline" href="#">Home</a>
-      <a class="hover:underline" href="#">Products</a>
-      <a class="hover:underline" href="#">About us</a>
+      <a class="hover:underline" href="home.php">Home</a>
+      <a class="hover:underline" href="products.php">Products</a>
+      <a class="hover:underline" href="about.php">About us</a>
       <a class="hover:underline" href="#">Contacts</a>
     </nav>
-    <div>
-      <button aria-label="Shopping cart" class="text-[#f97316] text-lg">
-        <i class="fas fa-shopping-cart"></i>
-      </button>
-    </div>
+    <a href="cart.php" class="text-[#f97316] text-lg relative">
+      <i class="fas fa-shopping-cart"></i>
+      <?php if (count($_SESSION['cart']) > 0): ?>
+        <span class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+          <?php echo array_reduce($_SESSION['cart'], function($carry, $item) { return $carry + $item['quantity']; }, 0); ?>
+        </span>
+      <?php endif; ?>
+    </a>
   </header>
 
   <main class="max-w-7xl mx-auto px-6 pb-12">
-    <h2 class="font-extrabold text-[14px] leading-[18px] text-black mb-4 select-none">
+    <h2 class="font-extrabold text-2xl text-gray-800 mb-6 select-none">
       Check Out
     </h2>
-    <section aria-label="Checkout form and order summary" class="bg-white rounded-lg p-5 md:p-7 shadow-sm max-w-full overflow-x-auto">
-      <div class="grid grid-cols-1 md:grid-cols-[2fr_1fr_1fr_2fr] gap-x-5 gap-y-5 md:gap-y-6 text-[11px] leading-[14px] text-black font-extrabold select-none">
-        <div class="hidden md:block">Products</div>
-        <div class="hidden md:block">Price</div>
-        <div class="hidden md:block">Quantity</div>
-        <div class="hidden md:block">Shipping Address</div>
-
-        <?php foreach ($products as $product): ?>
-          <div class="flex items-center space-x-3 md:space-x-5">
-            <img alt="<?php echo $product['name']; ?>" class="w-12 h-12 rounded-lg bg-[#e6e6e6] flex-shrink-0" height="48" src="<?php echo $product['image']; ?>" width="48"/>
-            <div class="text-[8px] leading-[10px] font-extrabold text-black max-w-[80px] md:max-w-none">
-              <?php echo $product['name']; ?>
+    <form method="post" action="checkout.php">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <!-- Left Column - Shipping Address -->
+        <div class="lg:col-span-2 space-y-6">
+          <!-- Shipping Address Section -->
+          <section class="form-section">
+            <h3 class="font-bold text-lg text-gray-800 mb-4">Shipping Address</h3>
+            <div class="space-y-4">
+              <div>
+                <label for="name" class="form-label">Full Name</label>
+                <input type="text" id="name" name="name" class="form-input" placeholder="Jhasen Ambogna" required>
+              </div>
+              
+              <div>
+                <label for="address" class="form-label">Complete Address</label>
+                <textarea id="address" name="address" rows="4" class="form-input" placeholder="Street, City, State, ZIP Code" required></textarea>
+              </div>
+              
+              <div>
+                <label for="phone" class="form-label">Phone Number</label>
+                <input type="tel" id="phone" name="phone" class="form-input" placeholder="+639" required>
+              </div>
             </div>
-          </div>
-          <div class="flex items-center font-extrabold text-[11px] leading-[14px] text-black">
-            $<?php echo number_format($product['price'], 2); ?>
-          </div>
-          <div class="flex items-center space-x-1">
-            <button aria-label="Decrease quantity of <?php echo $product['name']; ?>" class="w-5 h-5 border border-gray-300 rounded text-[11px] font-extrabold text-black flex items-center justify-center select-none">-</button>
-            <span class="w-5 h-5 border border-gray-300 rounded text-[11px] font-extrabold text-black flex items-center justify-center select-none"><?php echo $product['quantity']; ?></span>
-            <button aria-label="Increase quantity of <?php echo $product['name']; ?>" class="w-5 h-5 border border-gray-300 rounded text-[11px] font-extrabold text-black flex items-center justify-center select-none">+</button>
-          </div>
-          <div>
-          </div>
-        <?php endforeach; ?>
+          </section>
 
-        <div class="col-span-1 md:col-span-3">
+          <!-- Order Summary Section -->
+          <section class="form-section">
+            <h3 class="font-bold text-lg text-gray-800 mb-4">Your Order</h3>
+            <div class="overflow-x-auto">
+              <table class="w-full">
+                <thead>
+                  <tr class="border-b border-gray-200">
+                    <th class="text-left py-3 font-bold text-gray-700">Product</th>
+                    <th class="text-right py-3 font-bold text-gray-700">Price</th>
+                    <th class="text-right py-3 font-bold text-gray-700">Qty</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <?php foreach ($_SESSION['cart'] as $product): ?>
+                    <tr class="border-b border-gray-100">
+                      <td class="py-4">
+                        <div class="flex items-center space-x-4">
+                          <img alt="<?= htmlspecialchars($product['name']) ?>" class="w-12 h-12 rounded-lg bg-gray-100" src="<?= htmlspecialchars($product['image']) ?>"/>
+                          <span class="font-medium text-gray-800"><?= htmlspecialchars($product['name']) ?></span>
+                        </div>
+                      </td>
+                      <td class="text-right py-4 font-medium text-gray-800">$<?= number_format($product['price'], 2) ?></td>
+                      <td class="text-right py-4 font-medium text-gray-800"><?= $product['quantity'] ?></td>
+                    </tr>
+                  <?php endforeach; ?>
+                </tbody>
+              </table>
+            </div>
+          </section>
         </div>
-        <div class="col-span-1 md:col-span-1 flex flex-col justify-start">
-          <div class="font-extrabold text-[11px] leading-[14px] text-black mb-2 select-none">
-            Payment
-          </div>
-          <form class="space-y-1 text-[11px] leading-[14px] font-extrabold text-black">
-            <?php foreach ($payment_methods as $method): ?>
-              <label class="flex items-center space-x-2 cursor-pointer">
-                <input class="w-4 h-4 text-[#2563eb] border-gray-300 focus:ring-[#2563eb]" name="payment" type="radio" value="<?php echo strtolower(str_replace(' ', '', $method)); ?>"/>
-                <span><?php echo $method; ?></span>
-              </label>
-            <?php endforeach; ?>
-          </form>
 
-          <div class="flex justify-between items-center mt-4">
-            <span class="font-extrabold text-[11px] leading-[14px] text-black select-none">
-              Subtotal
-            </span>
-            <span class="font-extrabold text-[11px] leading-[14px] text-black select-none">
-              $<?php echo number_format($subtotal, 2); ?>
-            </span>
-          </div>
-          <button class="mt-3 bg-[#0047ff] text-white text-[11px] leading-[14px] font-extrabold rounded px-3 py-1.5 hover:bg-[#0036cc] transition-colors" type="button">
-            Place Order
-          </button>
+        <!-- Right Column - Payment and Order Summary -->
+        <div class="space-y-6">
+          <!-- Payment Method Section -->
+          <section class="form-section">
+            <h3 class="font-bold text-lg text-gray-800 mb-4">Payment Method</h3>
+            <div class="space-y-4">
+              <?php foreach ($payment_methods as $method): ?>
+                <label class="flex items-center space-x-3 p-3 border-2 border-gray-200 rounded-lg hover:border-blue-400 transition-all cursor-pointer">
+                  <input class="w-5 h-5 text-blue-600 border-gray-300 focus:ring-blue-500" name="payment" type="radio" value="<?= strtolower(str_replace(' ', '', $method)) ?>" required/>
+                  <span class="font-medium text-gray-800"><?= htmlspecialchars($method) ?></span>
+                </label>
+              <?php endforeach; ?>
+            </div>
+          </section>
+
+          <!-- Order Total Section -->
+          <section class="form-section">
+            <h3 class="font-bold text-lg text-gray-800 mb-4">Order Summary</h3>
+            <div class="space-y-3">
+              <div class="flex justify-between">
+                <span class="text-gray-600">Subtotal:</span>
+                <span class="font-medium">$<?= number_format($subtotal, 2) ?></span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-gray-600">Shipping:</span>
+                <span class="font-medium">Free</span>
+              </div>
+              <div class="border-t border-gray-200 pt-3 mt-3">
+                <div class="flex justify-between font-bold text-lg">
+                  <span>Total:</span>
+                  <span>$<?= number_format($subtotal, 2) ?></span>
+                </div>
+              </div>
+            </div>
+            <button type="submit" class="w-full mt-6 bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg transition-colors">
+              Place Order
+            </button>
+          </section>
         </div>
       </div>
-    </section>
+    </form>
   </main>
 </body>
 </html>
