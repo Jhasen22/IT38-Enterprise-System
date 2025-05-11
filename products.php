@@ -1,4 +1,11 @@
 <?php
+session_start();
+
+// Initialize cart if not exists
+if (!isset($_SESSION['cart'])) {
+    $_SESSION['cart'] = [];
+}
+
 // Example of product data
 $products = [
     [
@@ -30,6 +37,45 @@ $products = [
         "rating" => 3
     ]
 ];
+
+// Handle adding to cart
+if (isset($_GET['add_to_cart'])) {
+    $product_name = urldecode($_GET['add_to_cart']);
+    $product_found = null;
+    
+    // Find the product in our array
+    foreach ($products as $product_item) {
+        if ($product_item['name'] === $product_name) {
+            $product_found = $product_item;
+            break;
+        }
+    }
+    
+    if ($product_found) {
+        // Check if product already exists in cart
+        $item_exists = false;
+        foreach ($_SESSION['cart'] as &$cart_item) {
+            if ($cart_item['name'] === $product_found['name']) {
+                $cart_item['quantity'] += 1;
+                $item_exists = true;
+                break;
+            }
+        }
+        
+        if (!$item_exists) {
+            $_SESSION['cart'][] = [
+                'name' => $product_found['name'],
+                'price' => floatval(str_replace('$', '', $product_found['price'])),
+                'quantity' => 1,
+                'image' => $product_found['image']
+            ];
+        }
+    }
+    
+    // Redirect to prevent duplicate additions
+    header("Location: products.php");
+    exit();
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -58,9 +104,14 @@ $products = [
         <a class="hover:underline" href="about.php">About us</a>
         <a class="hover:underline" href="#">Contacts</a>
     </nav>
-    <button aria-label="Shopping cart" class="text-[#f97316] text-xl">
+    <a href="cart.php" class="text-[#f97316] text-xl relative">
         <i class="fas fa-shopping-cart"></i>
-    </button>
+        <?php if (!empty($_SESSION['cart'])): ?>
+            <span class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                <?php echo array_reduce($_SESSION['cart'], function($total, $item) { return $total + $item['quantity']; }, 0); ?>
+            </span>
+        <?php endif; ?>
+    </a>
 </header>
 
 <div class="max-w-7xl mx-auto mt-6">
@@ -78,20 +129,20 @@ $products = [
 <main class="max-w-7xl mx-auto mt-10 bg-white rounded-xl p-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
     <?php foreach ($products as $product): ?>
         <article class="bg-[#f3f3f3] rounded-xl p-4 flex flex-col items-center text-center">
-            <img alt="<?= $product['name'] ?>" class="mb-4" height="120" src="<?= $product['image'] ?>" width="150"/>
-            <h3 class="font-extrabold text-xs text-[#1a1a1a] mb-1"><?= $product['name'] ?></h3>
+            <img alt="<?= htmlspecialchars($product['name']) ?>" class="mb-4" height="120" src="<?= htmlspecialchars($product['image']) ?>" width="150"/>
+            <h3 class="font-extrabold text-xs text-[#1a1a1a] mb-1"><?= htmlspecialchars($product['name']) ?></h3>
             <p class="text-[9px] text-[#1a1a1a] font-bold mb-1">Description:</p>
-            <p class="text-[8px] text-[#1a1a1a] mb-2"><?= $product['description'] ?></p>
+            <p class="text-[8px] text-[#1a1a1a] mb-2"><?= htmlspecialchars($product['description']) ?></p>
             <div class="text-[#f97316] text-xs mb-2">
                 <?php for ($i = 0; $i < $product['rating']; $i++): ?>
                     <i class="fas fa-star"></i>
                 <?php endfor; ?>
             </div>
             <div class="flex items-center gap-2 justify-center text-xs font-extrabold text-[#1a1a1a] mb-2">
-                <span><?= $product['price'] ?></span>
-                <button aria-label="Add <?= $product['name'] ?> to cart" class="text-[#f97316]">
+                <span><?= htmlspecialchars($product['price']) ?></span>
+                <a href="?add_to_cart=<?= urlencode($product['name']) ?>" class="text-[#f97316]">
                     <i class="fas fa-shopping-cart"></i>
-                </button>
+                </a>
             </div>
             <button class="bg-[#f97316] text-white text-[10px] font-extrabold rounded-full px-4 py-1 w-full hover:bg-[#e25816] transition">
                 Buy now!
