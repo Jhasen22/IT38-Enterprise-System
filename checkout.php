@@ -17,10 +17,22 @@ $subtotal = array_reduce($_SESSION['cart'], function($total, $item) {
 
 // Handle form submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Process the order here
-    // You would typically save the order to a database
-    // and then redirect to a confirmation page
-    header('Location: order_confirmation.php');
+    // Store order details in session
+    $_SESSION['order_details'] = [
+        'name' => $_POST['name'],
+        'address' => $_POST['address'],
+        'phone' => $_POST['phone'],
+        'payment_method' => $_POST['payment'],
+        'items' => $_SESSION['cart'],
+        'total' => $subtotal,
+        'order_number' => 'ORD-' . strtoupper(uniqid())
+    ];
+    
+    // Clear the cart
+    unset($_SESSION['cart']);
+    
+    // Redirect to confirmation page
+    header('Location: confirmation.php');
     exit();
 }
 ?>
@@ -64,7 +76,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </nav>
     <a href="cart.php" class="text-[#f97316] text-lg relative">
       <i class="fas fa-shopping-cart"></i>
-      <?php if (count($_SESSION['cart']) > 0): ?>
+      <?php if (isset($_SESSION['cart']) && count($_SESSION['cart']) > 0): ?>
         <span class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
           <?php echo array_reduce($_SESSION['cart'], function($carry, $item) { return $carry + $item['quantity']; }, 0); ?>
         </span>
@@ -140,7 +152,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div class="space-y-4">
               <?php foreach ($payment_methods as $method): ?>
                 <label class="flex items-center space-x-3 p-3 border-2 border-gray-200 rounded-lg hover:border-blue-400 transition-all cursor-pointer">
-                  <input class="w-5 h-5 text-blue-600 border-gray-300 focus:ring-blue-500" name="payment" type="radio" value="<?= strtolower(str_replace(' ', '', $method)) ?>" required/>
+                  <input class="w-5 h-5 text-blue-600 border-gray-300 focus:ring-blue-500" name="payment" type="radio" value="<?= htmlspecialchars($method) ?>" required/>
                   <span class="font-medium text-gray-800"><?= htmlspecialchars($method) ?></span>
                 </label>
               <?php endforeach; ?>
