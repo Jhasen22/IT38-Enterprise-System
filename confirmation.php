@@ -23,6 +23,18 @@ $order = $_SESSION['order_details'];
     body {
       font-family: 'Inter', sans-serif;
     }
+    .tracking-step {
+      @apply relative pb-8;
+    }
+    .tracking-step:not(:last-child):before {
+      @apply content-[''] absolute left-[18px] top-[30px] h-full w-0.5 bg-gray-300;
+    }
+    .tracking-step.active .step-icon {
+      @apply bg-blue-600 text-white;
+    }
+    .tracking-step.completed .step-icon {
+      @apply bg-green-500 text-white;
+    }
   </style>
 </head>
 <body class="bg-gradient-to-tr from-[#e2e8f0] via-[#f1f5f9] to-[#e2e8f0] min-h-screen flex items-center justify-center p-4">
@@ -68,6 +80,9 @@ $order = $_SESSION['order_details'];
           <span>$<?= number_format($order['total'], 2) ?></span>
         </div>
         <div class="flex space-x-3 w-full sm:w-auto">
+          <a href="track_order.php?order=<?= $order['order_number'] ?>" class="bg-blue-600 text-white text-xs font-semibold rounded px-4 py-2 w-full sm:w-auto hover:bg-blue-700 transition text-center">
+            Track Order
+          </a>
           <a href="products.php" class="border border-gray-900 text-gray-900 text-xs font-semibold rounded px-4 py-2 w-full sm:w-auto hover:bg-gray-100 transition text-center">
             Continue Shopping
           </a>
@@ -78,6 +93,6 @@ $order = $_SESSION['order_details'];
 </body>
 </html>
 <?php
-// Clear order details after displaying them
-unset($_SESSION['order_details']);
+// Don't clear order details so we can track it later
+// unset($_SESSION['order_details']);
 ?>
