@@ -76,6 +76,36 @@ if (isset($_GET['add_to_cart'])) {
     header("Location: products.php");
     exit();
 }
+
+// Handle Buy Now action
+if (isset($_GET['buy_now'])) {
+    $product_name = urldecode($_GET['buy_now']);
+    $product_found = null;
+    
+    // Find the product in our array
+    foreach ($products as $product_item) {
+        if ($product_item['name'] === $product_name) {
+            $product_found = $product_item;
+            break;
+        }
+    }
+    
+    if ($product_found) {
+        // Clear existing cart and add only this product
+        $_SESSION['cart'] = [
+            [
+                'name' => $product_found['name'],
+                'price' => floatval(str_replace('$', '', $product_found['price'])),
+                'quantity' => 1,
+                'image' => $product_found['image']
+            ]
+        ];
+        
+        // Redirect to cart page
+        header("Location: cart.php");
+        exit();
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -144,9 +174,9 @@ if (isset($_GET['add_to_cart'])) {
                     <i class="fas fa-shopping-cart"></i>
                 </a>
             </div>
-            <button class="bg-[#f97316] text-white text-[10px] font-extrabold rounded-full px-4 py-1 w-full hover:bg-[#e25816] transition">
+            <a href="?buy_now=<?= urlencode($product['name']) ?>" class="bg-[#f97316] text-white text-[10px] font-extrabold rounded-full px-4 py-1 w-full hover:bg-[#e25816] transition text-center">
                 Buy now!
-            </button>
+            </a>
         </article>
     <?php endforeach; ?>
 </main>
